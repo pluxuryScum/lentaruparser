@@ -17,5 +17,24 @@
 # TODO: собрать тело новости
 
 
+import argparse
+
+
+def create_parser():
+    """ Обрабатывает аргументы командной строки.
+
+    --file - файл (обязательный параметр, путь до файла, в который будут сохраняться данные)
+    --rubric - рубрика (необязательный параметр, фильтрует статьи по рубрике, может быть либо news,
+    либо articles. Если не указан, должны собираться все статьи)
+    --date - дата (необязательный параметр, фильтрует статьи по дате)
+    """
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--file')
+    parser.add_argument('--rubric', default='both')  # параметр по умолчанию равен 'both'
+    parser.add_argument('--date', default='latest')  # параметр по умолчанию равен 'latest'
+
+    return parser
+
+
 if __name__ == "__main__":
     pass
