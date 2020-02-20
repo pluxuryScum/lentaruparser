@@ -18,6 +18,8 @@
 
 
 import argparse
+import requests
+import sys
 
 
 def create_parser():
@@ -36,5 +38,28 @@ def create_parser():
     return parser
 
 
+def parse_news():
+    base_url = 'https://lenta.ru'
+    session = requests.Session()
+    response = session.get(base_url)
+    if response.status_code == 200:
+        # Запрос выполнен успешно.
+        ...
+    else:
+        sys.exit("Ошибка открытия страницы https://lenta.ru/")
+
+
 if __name__ == "__main__":
+    # DEBUG
+    # news_parser = create_parser()
+    # namespace = news_parser.parse_args(sys.argv[1:])
+    #
+    # if len(sys.argv) < 2:
+    #     sys.exit('Ошибка. Переданных параметров слишком мало!')
+    # elif len(sys.argv) > 4:
+    #     sys.exit('Ошибка. Переданных параметров слишком много!')
+    #
+    # file_path = namespace.file
+    # rubric = namespace.rubric
+    # date = namespace.date
     pass
