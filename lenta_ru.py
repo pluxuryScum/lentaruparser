@@ -1,19 +1,3 @@
-# TODO: 1 аргумент программы - файл (обязательный, содержит путь до файла, в который будут сохраняться данные).
-
-# TODO: 2 аргумент программы - рубрика (необязательный, фильтрует статьи по рубрике,
-#  может быть либо news, либо articles. Если не указан, должны собираться все статьи (news + articles)).
-
-# TODO: 3 аргумент программы - дата (необязательный, фильтрует статьи по дате).
-
-# TODO: пример запуска программы: python lenta_ru.py --file="/home/Ivanov/crawler/data/lenta_ru.pkl" --rubric="news"
-#  --date="2020.01.28"
-
-# TODO: для каждой новости собрать ссылку
-
-# TODO: для каждой новости собрать заголовок
-
-# TODO: для каждой новости собрать дату
-
 # TODO: собрать тело новости
 
 # TODO: убрать строчки для дебага
@@ -132,6 +116,33 @@ def filter_date(news, articles, date, rubric, file_path):
 
     else:
         sys.exit("Ошибка в указании рубрики (требуется либо news, либо article).")
+
+
+def parse_news_text(elements):
+    """ Записывает тела всех последних новостей в текстовый файл.
+
+    elements - список новостей или статей
+    """
+    newstexts = []  # все тела элементов
+    for element in elements:
+        temp_url = element['link']
+        session = requests.Session()
+        response = session.get(temp_url)
+        if response.status_code == 200:
+            # Запрос выполнен успешно.
+            soup = bs(response.content, 'html.parser')
+            paragraphs = soup.find_all('p')
+            for paragraph in paragraphs:
+                newstexts.append(paragraph.text)
+        else:
+            sys.exit("Ошибка открытия страницы с новостью.")
+
+    # Запись тел всех элементов в файл newstexts.txt
+    with open('newstexts.txt', 'w', encoding='utf-8') as file:
+        for line in newstexts:
+            file.write(line + '\n')
+
+    print('Запись тел всех новостей успешно произведена.')
 
 
 if __name__ == "__main__":
