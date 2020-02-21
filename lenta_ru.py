@@ -1,5 +1,3 @@
-# TODO: собрать тело новости
-
 # TODO: убрать строчки для дебага
 
 
@@ -26,7 +24,7 @@ def create_parser():
     return parser
 
 
-def parse_news():
+def parse_news_articles():
     """ Обрабатывает парсинг данных с сайта с новостями.
     Возвращает список всех новостей и всех статей.
     """
@@ -118,8 +116,8 @@ def filter_date(news, articles, date, rubric, file_path):
         sys.exit("Ошибка в указании рубрики (требуется либо news, либо article).")
 
 
-def parse_news_text(elements):
-    """ Записывает тела всех последних новостей в текстовый файл.
+def parse_elements_text(elements):
+    """ Записывает тела всех последних элементов в текстовый файл.
 
     elements - список новостей или статей
     """
@@ -146,19 +144,19 @@ def parse_news_text(elements):
 
 
 if __name__ == "__main__":
-    # DEBUG
-    # news_parser = create_parser()
-    # namespace = news_parser.parse_args(sys.argv[1:])
-    #
-    # if len(sys.argv) < 2:
-    #     sys.exit('Ошибка. Переданных параметров слишком мало!')
-    # elif len(sys.argv) > 4:
-    #     sys.exit('Ошибка. Переданных параметров слишком много!')
-    #
-    # file_path = namespace.file
-    # rubric = namespace.rubric
-    # date = namespace.date
-    # news = []
-    # articles = []
-    # news, articles = parse_news()
-    pass
+    news_parser = create_parser()
+    namespace = news_parser.parse_args(sys.argv[1:])
+
+    if len(sys.argv) < 2:
+        sys.exit('Ошибка. Переданных параметров слишком мало!')
+    elif len(sys.argv) > 4:
+        sys.exit('Ошибка. Переданных параметров слишком много!')
+
+    file_path = namespace.file  # путь до файла, где будут храниться данные
+    rubric = namespace.rubric  # рубрика (news или articles)
+    date = namespace.date  # дата публикации элемента
+    news = []  # список всех новостей
+    articles = []  # список всех статей
+    news, articles = parse_news_articles()
+    elements = filter_date(news, articles, date, rubric, file_path)
+    parse_elements_text(elements)
