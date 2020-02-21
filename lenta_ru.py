@@ -1,6 +1,3 @@
-# TODO: убрать строчки для дебага
-
-
 import argparse
 import requests
 import sys
