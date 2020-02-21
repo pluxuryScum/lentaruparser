@@ -37,11 +37,8 @@ def parse_news_articles():
         # Запрос выполнен успешно.
         soup = bs(response.content, 'html.parser')
         divs = soup.find_all('div', class_='titles')  # найти все теги <div> с атрибутами 'titles'
-        # print(divs)
         for a in divs:  # поиск среди всех дочерних тегов <a> для каждого из тегов <div>
-            # print(a)
             element = a.find('h3').find('a')
-            # print(element)
             if str(element).startswith('<a href="/news'):  # если элемент - новость
                 news.append({
                     'title': element.text,  # заголовок новости
@@ -62,7 +59,7 @@ def parse_news_articles():
 
 
 def filter_date(news, articles, date, rubric, file_path):
-    """ Сохраняет данные с сайта в зависимости от указания пользователем даты.
+    """ Сохраняет данные с сайта в зависимости от указания даты пользователем.
 
     news - список всех последних новостей
     articles - список всех последних статей
@@ -157,6 +154,6 @@ if __name__ == "__main__":
     date = namespace.date  # дата публикации элемента
     news = []  # список всех новостей
     articles = []  # список всех статей
-    news, articles = parse_news_articles()
-    elements = filter_date(news, articles, date, rubric, file_path)
-    parse_elements_text(elements)
+    news, articles = parse_news_articles()  # получить значения всех новостей и статей
+    elements = filter_date(news, articles, date, rubric, file_path)  # сохранить данные с сайта
+    parse_elements_text(elements)  # записать тела элементов в текстовый файл
